@@ -29,6 +29,7 @@ router.route('/:room/users')
         
         var user = new User();      // create a new instance of the User model
    		// set the users details 
+   		user._id = req.body.username;
         user.name = req.body.name;
         user.lastname = req.body.lastname;
         user.tags = req.body.tags;
