@@ -23,7 +23,7 @@ router.get('/', function (req, res) {
   res.send('Hello World!')
 });
 
-router.route('/users')
+router.route('/:room/users')
 	//create a user (accessed at POST http://localhost:3000/api/users)
     .post(function(req, res) {
         
@@ -32,19 +32,20 @@ router.route('/users')
         user.name = req.body.name;
         user.lastname = req.body.lastname;
         user.tags = req.body.tags;
+        user.room = req.params.room;
 
         // save the user and check for errors
         user.save(function(err) {
             if (err)
                 res.send(err);
 
-            res.json({ message: 'User '+user.name+' created!' });
+            res.json({ message: 'User '+user.name+' joined '+req.params.room });
     	});
     })
 
     //get all users
     .get(function(req, res) {
-        User.find(function(err, users) {
+        User.find({'room' : req.params.room},function(err, users) {
             if (err)
                 res.send(err);
 
@@ -53,7 +54,7 @@ router.route('/users')
     });
 
 //find user by id
-router.route('/users/:user_id')
+router.route('/:room/users/:user_id')
 
     // get the user with that id
     .get(function(req, res) {
@@ -96,16 +97,16 @@ router.route('/users/:user_id')
             if (err)
                 res.send(err);
 
-            res.json({ message: 'User left the room.' });
+            res.json({ message: 'User left '+req.params.room });
         });
     });
 
 
-router.route('/tags')
+router.route('/:room/tags')
 	//get users by tags
 	.get(function(req, res) {
-
-        User.find({'tags' : req.query.t},function(err, user){
+        User.find({'room': req.params.room, 
+        	'tags': {$all:req.query.t}},function(err, user){
         	if (err)
                 res.send(err);
             res.json(user);
