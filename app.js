@@ -88,7 +88,6 @@ router.route('/:room/users/:user_id')
     	})
     })
 
-
     //user exits room
     .delete(function(req, res) {
         User.remove({
@@ -112,9 +111,6 @@ router.route('/:room/tags')
             res.json(user);
         });
     });
-
-
-
 
 
 //define routes
