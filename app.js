@@ -101,9 +101,23 @@ router.route('/users/:user_id')
     });
 
 
+router.route('/tags')
+	//get users by tags
+	.get(function(req, res) {
+
+        User.find({'tags' : req.query.t},function(err, user){
+        	if (err)
+                res.send(err);
+            res.json(user);
+        });
+    });
+
+
+
+
 
 //define routes
-app.use('/api', router);
+app.use('/', router);
 
 // Boot up server
 app.listen(3000);
