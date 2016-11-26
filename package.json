@@ -1,0 +1,31 @@
+{
+  "name": "hackkings",
+  "version": "1.0.0",
+  "main": "app.js",
+  "dependencies": {
+    "babel-cli": "^6.18.0",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "http": "0.0.0",
+    "request": "^2.79.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "babel-node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eleve11/hackkings.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eleve11/hackkings/issues"
+  },
+  "homepage": "https://github.com/eleve11/hackkings#readme",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-0": "^6.16.0"
+  },
+  "description": ""
+}
