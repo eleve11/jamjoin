@@ -8,6 +8,7 @@ var UserSchema = new Schema({
 	lastname: String,
 	age: Number,
 	tags: [String],
+	status: String,
 	room: String,
 	bio : String
 })

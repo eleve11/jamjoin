@@ -14,6 +14,7 @@ module.exports = function(router){
             user.tags = req.body.tags;
             user.room = req.params.room;
             user.bio = req.params.bio
+            user.status = req.params.status;
 
             // save the user and check for errors
             user.save(function(err) {
@@ -60,6 +61,8 @@ module.exports = function(router){
     	        	user.tags = req.body.tags;
     	        if(req.body.age)
     	        	user.age = req.body.age;
+                if(req.body.status)
+                    user.status = req.body.status;
 
                 // save the user
                 user.save(function(err) {
