@@ -1,8 +1,8 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import http from 'http';
-import request from 'request';
-import mongoose from 'mongoose';
+var express = require( 'express');
+var bodyParser = require('body-parser');
+var http = require('http');
+var request = require('request');
+var mongoose = require('mongoose');
 
 const app = express();
 
@@ -14,105 +14,11 @@ app.use(bodyParser.json());
 
 var router = express.Router(); 
 
+require('./routes.js')(router);
 // middleware to use for all requests
 router.use(function(req, res, next) {
 	next(); //go to next thing
 });
-
-router.get('/', function (req, res) {
-  res.send('Hello World!')
-});
-
-router.route('/:room/users')
-	//create a user (accessed at POST http://localhost:3000/api/users)
-    .post(function(req, res) {
-        
-        var user = new User();      // create a new instance of the User model
-   		// set the users details 
-   		user._id = req.body.username;
-        user.name = req.body.name;
-        user.lastname = req.body.lastname;
-        user.tags = req.body.tags;
-        user.room = req.params.room;
-
-        // save the user and check for errors
-        user.save(function(err) {
-            if (err)
-                res.send(err);
-
-            res.json({ message: 'User '+user.name+' joined '+req.params.room });
-    	});
-    })
-
-    //get all users
-    .get(function(req, res) {
-        User.find({'room' : req.params.room},function(err, users) {
-            if (err)
-                res.send(err);
-
-            res.json(users);
-        });
-    });
-
-//find user by id
-router.route('/:room/users/:user_id')
-
-    // get the user with that id
-    .get(function(req, res) {
-        User.findById(req.params.user_id, function(err, user) {
-            if (err)
-                res.send(err);
-            res.json(user);
-        });
-    })
-
-    //update user
-    .put(function(req, res) {
-        User.findById(req.params.user_id, function(err, user) {
-            if (err)
-                res.send(err);
-    
-    		if(req.body.name)
-	        	user.name = req.body.name;
-	        if(req.body.lastname)
-	        	user.lastname = req.body.lastname;
-	        if(req.body.tags)
-	        	user.tags = req.body.tags;
-
-            // save the user
-            user.save(function(err) {
-                if (err)
-                    res.send(err);
-
-            res.json(user);
-        	});
-    	})
-    })
-
-    //user exits room
-    .delete(function(req, res) {
-        User.remove({
-            _id: req.params.user_id
-        }, function(err, user) {
-            if (err)
-                res.send(err);
-
-            res.json({ message: 'User left '+req.params.room });
-        });
-    });
-
-
-router.route('/:room/tags')
-	//get users by tags
-	.get(function(req, res) {
-        User.find({'room': req.params.room, 
-        	'tags': {$all:req.query.t}},function(err, user){
-        	if (err)
-                res.send(err);
-            res.json(user);
-        });
-    });
-
 
 //define routes
 app.use('/', router);
